@@ -6,12 +6,12 @@ const client = createClient();
 const app = express();
 app.use(express.json());
 
-app.post('/submit', (req, res)=>{
-    const { problemID, userId, code, language } = req.body();
+app.post('/submit', async (req, res)=>{
+    const { problemID, userId, code, language } = req.body;
 
     // ideally you should push in the DB here like - prisma.submissions.create({})
 
-    client.lPush("submissions", JSON.stringify({problemID, userId, code, language}));
+    await client.lPush("submissions", JSON.stringify({problemID, userId, code, language}));
     res.json({
         msg : "Submission Recieved!"
     })
